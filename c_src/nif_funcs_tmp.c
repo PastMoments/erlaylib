@@ -1,30 +1,35 @@
 #include "erl_nif.h"
 #include "raylib.h"
 
-#include "nifhelpers.h"
+#include "nif_helpers.h"
 
 #include "nif_funcs.h"
 
-DECLARE_NIF_FUNC(beginDrawing) {
+DECLARE_NIF_FUNC(beginDrawing)
+{
     BeginDrawing();
     return enif_make_atom_ok(env);
 }
 
-DECLARE_NIF_FUNC(endDrawing) {
+DECLARE_NIF_FUNC(endDrawing)
+{
     EndDrawing();
     return enif_make_atom_ok(env);
 }
 
-DECLARE_NIF_FUNC(clearBackground) {
+DECLARE_NIF_FUNC(clearBackground)
+{
     Color color;
-    if (!enif_get_tuple_as_color(env, argv[0], &color)) {
-	    return enif_make_badarg(env);
+    if (!enif_get_tuple_as_color(env, argv[0], &color))
+    {
+        return enif_make_badarg(env);
     }
     ClearBackground(color);
     return enif_make_atom_ok(env);
 }
 
-DECLARE_NIF_FUNC(drawText) {
+DECLARE_NIF_FUNC(drawText)
+{
     char text[256];
     int posX;
     int posY;
@@ -34,17 +39,20 @@ DECLARE_NIF_FUNC(drawText) {
         !enif_get_int(env, argv[1], &posX) ||
         !enif_get_int(env, argv[2], &posY) ||
         !enif_get_int(env, argv[3], &fontSize) ||
-        !enif_get_tuple_as_color(env, argv[4], &color)) {
-	    return enif_make_badarg(env);
+        !enif_get_tuple_as_color(env, argv[4], &color))
+    {
+        return enif_make_badarg(env);
     }
     DrawText(text, posX, posY, fontSize, color);
     return enif_make_atom_ok(env);
 }
 
-DECLARE_NIF_FUNC(setTargetFPS) {
-	int fps;
-    if (!enif_get_int(env, argv[0], &fps)) {
-	    return enif_make_badarg(env);
+DECLARE_NIF_FUNC(setTargetFPS)
+{
+    int fps;
+    if (!enif_get_int(env, argv[0], &fps))
+    {
+        return enif_make_badarg(env);
     }
     SetTargetFPS(fps);
     return enif_make_atom_ok(env);
